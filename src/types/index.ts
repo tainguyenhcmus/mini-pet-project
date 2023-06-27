@@ -18,7 +18,8 @@ export interface ProductsContextState {
   skip: number,
   total: number,
   page: number,
-  loading: boolean
+  loading: boolean,
+  search: string,
 }
 
 export interface IProductsContext {

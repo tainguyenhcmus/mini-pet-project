@@ -16,7 +16,8 @@ const defaultProductsContextState: ProductsContextState = {
   skip: 0,
   total: 0,
   page: 0,
-  loading: true
+  loading: true,
+  search: '',
 }
 
 export const ProductsContext = createContext<IProductsContext>({
@@ -34,8 +35,14 @@ const ProductsContextProvider = ({ children }: { children: ReactNode }) => {
     defaultProductsContextState
   )
 
+  const urlApi = productsContextState.search ?
+    `https://dummyjson.com/products/search?q=${productsContextState.search}` :
+    `https://dummyjson.com/products?limit=20&skip=${productsContextState.page * SKIP_PRODUCT}`
+
   // Fetch data using SWR
-  const { data: productsData, isLoading } = useSWR(`https://dummyjson.com/products?limit=20&skip=${productsContextState.page * SKIP_PRODUCT}`);
+  const { data: productsData, isLoading } = useSWR(
+    urlApi
+  );
 
   const updateProductsContextState = (
     updatedObj: Partial<ProductsContextState>
